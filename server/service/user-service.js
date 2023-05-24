@@ -4,7 +4,7 @@ const uuid = require('uuid');
 const mailService = require('./mail-service');
 const tokenService = require('./token-service');
 const UserDto = require('../dtos/user-dto');
-// const ApiError = require('../exceptions/api-error');
+const ApiError = require('../exceptions/api-error');
 
 class UserService {
     async registration(email, password) {
@@ -23,6 +23,15 @@ class UserService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
         return {...tokens, user: userDto}
+    }
+
+    async activate(activationLink) {
+        const user = await UserModel.findOne({activationLink})
+        if (!user) {
+            throw ApiError.BadRequest(`Error link`)
+        }
+        user.isActivated = true;
+        await user.save();
     }
 }
 
