@@ -22,7 +22,6 @@ app.use(errorMiddleware);
 
 
 const start = async () => {
-
     try {
         await mongoose.connect(process.env.DB_URL, {
             useNewUrlParser: true,
