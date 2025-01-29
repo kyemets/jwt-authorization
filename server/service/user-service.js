@@ -8,7 +8,10 @@ const ApiError = require('../exceptions/api-error');
 
 class UserService {
     async registration(email, password) {
-        const candidate = await UserModel.findOne({email})
+        if (typeof email !== "string") {
+            throw ApiError.BadRequest("Invalid email format");
+        }
+        const candidate = await UserModel.findOne({ email: { $eq: email } })
         if (candidate) {
             throw ApiError.BadRequest(`The user with the email address ${email} already exists`)
         }
@@ -26,7 +29,7 @@ class UserService {
     }
 
     async activate(activationLink) {
-        const user = await UserModel.findOne({activationLink})
+        const user = await UserModel.findOne({ activationLink: { $eq: activationLink } })
         if (!user) {
             throw ApiError.BadRequest(`Error link`)
         }
@@ -35,7 +38,10 @@ class UserService {
     }
 
     async login(email, password) {
-        const user = await UserModel.findOne({email});
+        if (typeof email !== "string") {
+            throw ApiError.BadRequest("Invalid email format");
+        }
+        const user = await UserModel.findOne({ email: { $eq: email } });
         if (!user) {
             throw ApiError.BadRequest(`The user with this email ${email} was not found!`)
         }
