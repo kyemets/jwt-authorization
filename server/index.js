@@ -4,7 +4,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const router = require('./router/index');
-const errorMiddleware = require('./middlewares/auth-middleware')
+const errorMiddleware = require('./middlewares/auth-middleware');
+const lusca = require('lusca');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -16,6 +17,7 @@ app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL
 }));
+app.use(lusca.csrf());
 app.use('/api', router);
 app.use(errorMiddleware);
 
