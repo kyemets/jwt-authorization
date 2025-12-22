@@ -21,7 +21,8 @@
     "mongoose": "^8.9.5",
     "nodemailer": "^7.0.7",
     "uuid": "^9.0.0",
-    "lusca": "^1.7.0"
+    "lusca": "^1.7.0",
+    "express-rate-limit": "^8.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
